@@ -1,0 +1,207 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+.contenu {
+    display: flex;
+    min-height: 100vh;
+}
+
+.side {
+    width: 250px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    
+}
+
+.side .logo {
+    margin-bottom: 30px;
+}
+.side #logo-p{
+    width: 170px;
+    height: 50px;
+}
+
+.side h2 {
+    color: white;
+}
+
+.side ul {
+    
+    list-style: none;
+}
+
+.side ul li {
+    padding: 15px;
+    text-align: center;
+}
+
+.side ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.side ul li:hover {
+    background-color: #575757;
+}
+
+.mainContent {
+    padding: 15px;
+}
+
+header h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.parent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.titre{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    position: relative;
+    gap: 30px;
+}
+#infoPlayer{
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+#close{
+    position: absolute;
+    top: 20px;
+    right: 10px;
+}
+#btn1,#btn6,#btn3{
+    color: white;
+    background-color: rgb(36, 167, 125);
+    width: 140px;
+    height: 40px;
+    border: none;
+    font-size:1.2rem ;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+
+.formulaire{
+    display: none;
+    flex-direction: column;
+    border: 1px solid  black ;
+    width: 450px;
+    gap: 10px;
+    background-color: rgb(211, 247, 235);
+    border-radius: 10px;
+    margin: auto;
+}
+.contentforms{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+.tous{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+#btn4{
+    width: 100px;
+    border: none;
+    height: 35px;
+    border-radius: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -ms-border-radius: 9px;
+    -o-border-radius: 9px;
+    background-color: rgb(36, 167, 125);
+    color: white;
+
+}
+input,select{
+    width: 180px;
+    outline-color: rgb(211, 247, 235);
+}
+
+.twoinput{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.twoinput input{
+    width: 250px;
+    height: 40px;
+    outline-color: green;
+}
+/* .cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card p {
+    font-size: 24px;
+    color: #555;
+}
+
+.charts {
+    display: flex;
+    gap: 20px;
+}
+
+.chart {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 48%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fake-chart {
+    width: 100%;
+    height: 200px;
+    background-color: #ddd;
+    border-radius: 8px;
+}
+
+.chart h3 {
+    margin-bottom: 20px;
+    color: #333;
+} */
+table{
+    text-align: center;
+}
