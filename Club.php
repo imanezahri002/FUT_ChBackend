@@ -15,18 +15,21 @@
                 </div>
             </form>
             <?php
-
-    if(isset($_POST["ajouter"])){
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
         $nomClub=$_POST["nomC"];
         $profileClub=$_POST["logoClub"];
+    if(isset($_POST["ajouter"])){
 
         $stmt = $conn->prepare("INSERT INTO clubs (club_name,club_image) VALUES (?,?)");
         $stmt->bind_param("ss",$nomClub,$profileClub);
-        $stmt->execute();
-        $stmt->close();
-        // mysqli_close($conn);
+    }else {
+        $id = $_POST["id"];
+        $stmt = $conn->prepare("UPDATE clubs SET   club_name = ? , club_image = ?   where club_id = ?");
+        $stmt->bind_param("ssi",$nomClub,$profileClub,$id);
     }
-
+    $stmt->execute();
+    $stmt->close();
+}
     ?>
     <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark">
@@ -38,21 +41,21 @@
                     </tr>
     </thead>
     <tbody>
-              <?php
+            <?php
                 $sql = "SELECT club_id ,club_name,club_image FROM Clubs";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
                     $id=$row["club_id"];
-                ?>
+            ?>
                     
                     <tr>
                     <td><?php echo $row["club_name"] ?></td>
                     <td><img src="<?php echo $row["club_image"] ?>" alt="" style="width:70px;height:70px"></td>
                     <td class="option">
                         
-                    <a href="modifierClub.php?id=<?php echo $id; ?>"><i class="fa-regular fa-pen-to-square fa-2xl" style="color: #046402;"></i></a>
-                    <a href="supprimerClub.php?id=<?php echo $id; ?>"><i class="fa-solid fa-trash fa-2xl" style="color: #f86868;"></i></a>
+                    <button onclick="handleDataEdit(<?= $id; ?>)" id="btnModif"><i class="fa-regular fa-pen-to-square fa-2xl" style="color: #046402;"></i></button>
+                    <a href="supprimerClub.php?id=<?= $id; ?>"><i class="fa-solid fa-trash fa-2xl" style="color: #f86868;"></i></a>
                         
                     </td>
                     </tr>
@@ -66,6 +69,7 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="script.js?v=2.5"></script>
+  <script src="script.js?v=9.0"></script>
+
 </body>
 </html>

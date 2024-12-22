@@ -8,23 +8,28 @@ include 'connexion.php';
             </div>
             <form action="" method="POST" class="formClub">
                 <div class="twoinput">
-                    <input type="text" required placeholder="name Nationality" id="nameClub" name="nomN">
-                    <input type="url" required placeholder="image drapeau" id="logoClub" name="logoN">
-                    <button id="btn6" name="ajouterN" type="submit">AJOUTER</button>
+                    <input type="text" required placeholder="name Nationality" id="nameNatio" name="nomN">
+                    <input type="url" required placeholder="image drapeau" id="logoNatio" name="logoN">
+                    <button id="btn7" name="ajouterN" type="submit">AJOUTER</button>
                 </div>
             </form>
             <?php
-                if(isset($_POST["ajouterN"])){
-                $nomN=$_POST["nomN"];
-                $imgN=$_POST["logoN"];
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $nomNat=$_POST["nomN"];
+        $logoNat=$_POST["logoN"];
+    if(isset($_POST["ajouter"])){
 
-                $stmt = $conn->prepare("INSERT INTO nationalité (nationality_name,nationality_image) VALUES (?,?)");
-                $stmt->bind_param("ss",$nomN,$imgN);
-                $stmt->execute();
-                $stmt->close();
-                
-            }
-            ?>
+        $stmt = $conn->prepare("INSERT INTO nationalité (nationality_name,nationality_image) VALUES (?,?)");
+        $stmt->bind_param("ss",$nomNat,$logoNat);
+    }else {
+        $id = $_POST["id"];
+        $stmt = $conn->prepare("UPDATE nationalité SET nationality_name = ? , nationality_image = ?   where nationality_id = ?");
+        $stmt->bind_param("ssi",$nomNat,$logoNat,$id);
+    }
+    $stmt->execute();
+    $stmt->close();
+    }
+    ?>
     <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark">
       
@@ -48,7 +53,7 @@ include 'connexion.php';
                     <td><?php echo $row["nationality_name"] ?></td>
                     <td><img src="<?php echo $row['nationality_image'] ?>" alt="" style="width:100px;height:70px"></td>
                     <td class="option">
-                    <a href="modifierNationality.php?id=<?php echo $id; ?>"><i class="fa-regular fa-pen-to-square fa-2xl" style="color: #046402;"></i></a>
+                    <button onclick="stockerDataEdit(<?= $id; ?>)" id="btnModif"><i class="fa-regular fa-pen-to-square fa-2xl" style="color: #046402;"></i></a>
                     <a href="supprimerNationality.php?id=<?php echo $id; ?>"><i class="fa-solid fa-trash fa-2xl" style="color: #f86868;"></i></a>
                     </td>
                     </tr>
@@ -62,6 +67,6 @@ include 'connexion.php';
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="script.js?v=2.5"></script>
+  <script src="script.js?v=7.0"></script>
 </body>
 </html>

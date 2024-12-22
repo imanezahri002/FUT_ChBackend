@@ -23,38 +23,29 @@ include 'aside.php';
                     <input type="text" required placeholder="nom" id="name" name="nomP">
                     <!-- <input type="text" required placeholder="nationalité" id="nationality" name="nationality"> -->
                     <select name="nationality" id="">
-                        <option value="1">morocco</option>
-                        <option value="2">England</option>
-                        <option value="3">Française</option>
-                        <option value="4">Allemande</option>
-                        <option value="5">Espagnole</option>
-                        <option value="6">Italienne</option>
-                        <option value="7">Américaine</option>
-                        <option value="8">Britannique</option>
-                        <option value="9">Chinoise</option>
-                        <option value="10">Japonnaise</option>
-                        <option value="11">Brésilienne</option>
+                        <?php
+                        $sql = "SELECT nationality_id,nationality_name FROM nationalité";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                 ?>
+                            
+                                <option ><?php echo $row['nationality_name'] ?></option>
+                        <?php
+                            }}
+                        ?>
                     </select>
                     <select name="club" id="">
-                        <option value="1">Manchester United</option>
-                        <option value="2">Paris Saint-Germain</option>
-                        <option value="3">Real Madrid</option>
-                        <option value="4">FC Barcelone</option>
-                        <option value="5">Juventus</option>
-                        <option value="6">Bayern Munich</option>
-                        <option value="7">Liverpool</option>
-                        <option value="8">Chelsea</option>
-                        <option value="9">Arsenal</option>
-                        <option value="10">AC Milan</option>
-                        <option value="11">Inter Milan</option>
-                        <option value="12">Manchester City</option>
-                        <option value="13">Borussia Dortmund</option>
-                        <option value="14">Tottenham Hotspur</option>
-                        <option value="15">Atletico Madrid</option>
-                        <option value="16">AS Roma</option>
-                        <option value="17">Lyon</option>
-                        <option value="18">Marseille</option>
-                        <option value="19">Boca Juniors</option>
+                    <?php
+                        $sql = "SELECT club_id,club_name FROM clubs";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) { ?>
+
+                            <option ><?php echo $row['club_name'] ?></option>
+                        <?php
+                            }}
+                        ?>
                     </select>
                     <input type="url" required placeholder="profile" id="profile" name="profile">
                     <input type="url" required placeholder="flag" id="flag" name="drapeau">
@@ -90,7 +81,33 @@ include 'aside.php';
                 </div>
               <div class="ajout-btn"><button id="btn4" name="envoyer" type="submit">AJOUTER</button></div>
               </form>
+
     </div>
+    <?php
+    if(isset($_POST["envoyer"])){
+        $nomj=$_POST["nomP"];
+        $nationality=$_POST["nationality"];
+        $club=$_POST["club"];
+        $profile=$_POST["profile"];
+        $drapeau=$_POST["drapeau"];
+        $logoC=$_POST["logoC"];
+        $position=$_POST["position"];
+        $rating=$_POST["rating"];
+        $pace=$_POST["pace"];
+        $shoot=$_POST["shoot"];
+        $pass=$_POST["pass"];
+        $drib=$_POST["drib"];
+        $defend=$_POST["defend"];
+        $phys=$_POST["phys"];
+
+        $stmt = $conn->prepare("INSERT INTO joueurs (joueur_name,position,nationality_id,club_id,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos,profile_joueur) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("ssiiiiiiiiis",$nomj,$position,$nationality,$club,$rating,$pace,$shoot,$pass,$drib,$defend,$phys,$profile);
+        $stmt->execute();
+        $stmt->close();
+        mysqli_close($conn);
+    }
+    
+    ?>
     <div class="container mt-5">
     <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark">
@@ -112,12 +129,70 @@ include 'aside.php';
 
                     </tr>
     </thead>
-                <tbody>
+    <tbody>
                 <?php
                 $sql = "SELECT profile_joueur,joueur_name,position,nationality_name,club_name,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos FROM Joueurs j 
                 INNER JOIN clubs c ON j.club_id=c.club_id
                 INNER JOIN nationalité n ON j.nationality_id=n.nationality_id 
                 WHERE position <> 'GK'";
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <tr>
+                    
+                    <td><?php echo $row['joueur_name']?></td>
+                    <td><?php echo $row['nationality_name']?></td>
+                    <td><img src="$row['profile_joueur']" alt="" ></td>
+                    <td><?php echo $row['position']?></td>
+                    <td><?php echo $row['club_name']?></td>
+                    <td><?php echo $row['rating']?></td>
+                    <td><?php echo $row['paceAndDiv']?></td>
+                    <td><?php echo $row['shootAndHandl']?></td>
+                    <td><?php echo $row['pasAndKick']?></td>
+                    <td><?php echo $row['dribAndRef']?></td>
+                    <td><?php echo $row['defAndSpeed']?></td>
+                    <td><?php echo $row['physAndPos']?></td>
+                    <td>
+                    <i class="fa-regular fa-pen-to-square fa-lg" style="color: #046402;"></i>
+                    <i class="fa-solid fa-trash fa-lg" style="color: #f86868;"></i>
+                    </td>
+                    </tr>
+                <?php
+                }
+            }
+            ?>
+                    
+                </tbody>
+    </table>
+        
+     
+    <table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+      
+                    <tr>
+                    <th>Prenom </th>
+                    <th>Nationalité</th>
+                    <th>Profile</th>
+                    <th>Position</th>
+                    <th>Club</th>
+                    <th>Rating</th>
+                    <th>Div</th>
+                    <th>Handl</th>
+                    <th>Kic</th>
+                    <th>Ref</th>
+                    <th>Speed</th>
+                    <th>Pos</th>
+                    <th>options</th>
+
+                    </tr>
+    </thead>
+                <tbody>
+                <?php
+                $sql = "SELECT profile_joueur,joueur_name,position,nationality_name,club_name,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos FROM Joueurs j 
+                INNER JOIN clubs c ON j.club_id=c.club_id
+                INNER JOIN nationalité n ON j.nationality_id=n.nationality_id 
+                WHERE position = 'GK'";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
@@ -183,31 +258,7 @@ include 'aside.php';
         <!-- </div>
     </div> -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="script.js?v=2.5"></script>
-    <?php
-    if(isset($_POST["envoyer"])){
-        $nomj=$_POST["nomP"];
-        $nationality=$_POST["nationality"];
-        $club=$_POST["club"];
-        $profile=$_POST["profile"];
-        $drapeau=$_POST["drapeau"];
-        $logoC=$_POST["logoC"];
-        $position=$_POST["position"];
-        $rating=$_POST["rating"];
-        $pace=$_POST["pace"];
-        $shoot=$_POST["shoot"];
-        $pass=$_POST["pass"];
-        $drib=$_POST["drib"];
-        $defend=$_POST["defend"];
-        $phys=$_POST["phys"];
-
-        $stmt = $conn->prepare("INSERT INTO joueurs (joueur_name,position,nationality_id,club_id,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos,profile_joueur) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("ssiiiiiiiiis",$nomj,$position,$nationality,$club,$rating,$pace,$shoot,$pass,$drib,$defend,$phys,$profile);
-        $stmt->execute();
-        $stmt->close();
-        mysqli_close($conn);
-    }
-    
-    ?>
+  <script src="script.js?v=9.0"></script>
+  
 </body>
 </html>

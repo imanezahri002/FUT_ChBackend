@@ -86,7 +86,7 @@ header h1 {
     top: 20px;
     right: 10px;
 }
-#btn1,#btn6,#btn3{
+#btn1,#btn6,#btn3,#btn7{
     color: white;
     background-color: rgb(36, 167, 125);
     width: 140px;
@@ -152,6 +152,10 @@ input,select{
     width: 250px;
     height: 40px;
     outline-color: green;
+}
+#btnModif{
+    border: none;
+
 }
 /* .cards {
     display: flex;
