@@ -2,8 +2,6 @@
 include 'connexion.php';
 include 'aside.php';
 ?>
-
-
         <!-- Contenu principal -->
         <div class="mainContent">
             <header>
@@ -17,7 +15,6 @@ include 'aside.php';
                 <h4 id="infoPlayer">Information des joeurs</h4>
                 <i class="fa-solid fa-xmark fa-2xl" style="color: #000000;" id="close"></i>
             </div>
-            
             <form action="" method="POST" class="contentforms">
                 <div class="tous">
                     <input type="text" required placeholder="nom" id="name" name="nomP">
@@ -29,8 +26,7 @@ include 'aside.php';
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
                                  ?>
-                            
-                                <option ><?php echo $row['nationality_name'] ?></option>
+                                <option value="<?php echo $row['nationality_id'] ?>"><?php echo $row['nationality_name'] ?></option>
                         <?php
                             }}
                         ?>
@@ -42,7 +38,7 @@ include 'aside.php';
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) { ?>
 
-                            <option ><?php echo $row['club_name'] ?></option>
+                            <option value="<?php echo $row['club_id'] ?>"><?php echo $row['club_name'] ?></option>
                         <?php
                             }}
                         ?>
@@ -104,9 +100,7 @@ include 'aside.php';
         $stmt->bind_param("ssiiiiiiiiis",$nomj,$position,$nationality,$club,$rating,$pace,$shoot,$pass,$drib,$defend,$phys,$profile);
         $stmt->execute();
         $stmt->close();
-        mysqli_close($conn);
     }
-    
     ?>
     <div class="container mt-5">
     <table class="table table-bordered table-striped table-hover">
@@ -131,19 +125,19 @@ include 'aside.php';
     </thead>
     <tbody>
                 <?php
-                $sql = "SELECT profile_joueur,joueur_name,position,nationality_name,club_name,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos FROM Joueurs j 
+                $sql = "SELECT joueur_id,profile_joueur,joueur_name,position,nationality_name,club_name,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos FROM Joueurs j 
                 INNER JOIN clubs c ON j.club_id=c.club_id
                 INNER JOIN nationalité n ON j.nationality_id=n.nationality_id 
                 WHERE position <> 'GK'";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
+                    $id=$row["joueur_id"];
                     ?>
                     <tr>
-                    
                     <td><?php echo $row['joueur_name']?></td>
                     <td><?php echo $row['nationality_name']?></td>
-                    <td><img src="$row['profile_joueur']" alt="" ></td>
+                    <td><img src="<?php echo $row['profile_joueur'] ?>" alt="" style="width:70px;height:70px;"></td>
                     <td><?php echo $row['position']?></td>
                     <td><?php echo $row['club_name']?></td>
                     <td><?php echo $row['rating']?></td>
@@ -155,21 +149,17 @@ include 'aside.php';
                     <td><?php echo $row['physAndPos']?></td>
                     <td>
                     <i class="fa-regular fa-pen-to-square fa-lg" style="color: #046402;"></i>
-                    <i class="fa-solid fa-trash fa-lg" style="color: #f86868;"></i>
+                    <a href="supprimerJoueur.php?id=<?php echo $id;?>"><i class="fa-solid fa-trash fa-lg" style="color: #f86868;"></i></a>
                     </td>
                     </tr>
                 <?php
                 }
             }
             ?>
-                    
                 </tbody>
     </table>
-        
-     
     <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark">
-      
                     <tr>
                     <th>Prenom </th>
                     <th>Nationalité</th>
@@ -189,19 +179,19 @@ include 'aside.php';
     </thead>
                 <tbody>
                 <?php
-                $sql = "SELECT profile_joueur,joueur_name,position,nationality_name,club_name,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos FROM Joueurs j 
+                $sql = "SELECT joueur_id,profile_joueur,joueur_name,position,nationality_name,club_name,rating,paceAndDiv,shootAndHandl,pasAndKick,dribAndRef,defAndSpeed,physAndPos FROM Joueurs j 
                 INNER JOIN clubs c ON j.club_id=c.club_id
                 INNER JOIN nationalité n ON j.nationality_id=n.nationality_id 
                 WHERE position = 'GK'";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
+                    $id=$row['joueur_id'];
                     ?>
                     <tr>
-                    
                     <td><?php echo $row['joueur_name']?></td>
                     <td><?php echo $row['nationality_name']?></td>
-                    <td><img src="$row['profile_joueur']" alt="" ></td>
+                    <td><img src="<?php echo $row['profile_joueur'] ?>" alt="" style="width:70px;height:70px;"></td>
                     <td><?php echo $row['position']?></td>
                     <td><?php echo $row['club_name']?></td>
                     <td><?php echo $row['rating']?></td>
@@ -212,38 +202,19 @@ include 'aside.php';
                     <td><?php echo $row['defAndSpeed']?></td>
                     <td><?php echo $row['physAndPos']?></td>
                     <td>
-                    <i class="fa-regular fa-pen-to-square fa-lg" style="color: #046402;"></i>
-                    <i class="fa-solid fa-trash fa-lg" style="color: #f86868;"></i>
+                    </a><i class="fa-regular fa-pen-to-square fa-lg" style="color: #046402;"></i>
+                    <a href="./supprimerJoueur.php?id=<?php echo $id ;?>"><i class="fa-solid fa-trash fa-lg" style="color: #f86868;"></i></a>
                     </td>
                     </tr>
                 <?php
                 }
             }
             ?>
-                    
                 </tbody>
     </table>
                 </div>
         </div>
     </div>
-                    
-    
-            <!-- Cartes d'information -->
-            <!-- <div class="cards">
-                <div class="card">
-                    <h3>Ventes</h3>
-                    <p>1,245</p>
-                </div>
-                <div class="card">
-                    <h3>Utilisateurs</h3>
-                    <p>589</p>
-                </div>
-                <div class="card">
-                    <h3>Revenus</h3>
-                    <p>€10,450</p>
-                </div>
-            </div> -->
-
             <!-- Section Graphiques -->
             <!-- <div class="charts">
                 <div class="chart">
@@ -259,6 +230,5 @@ include 'aside.php';
     </div> -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="script.js?v=9.0"></script>
-  
 </body>
 </html>

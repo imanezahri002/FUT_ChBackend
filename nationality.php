@@ -17,7 +17,7 @@ include 'connexion.php';
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $nomNat=$_POST["nomN"];
         $logoNat=$_POST["logoN"];
-    if(isset($_POST["ajouter"])){
+    if(isset($_POST["ajouterN"])){
 
         $stmt = $conn->prepare("INSERT INTO nationalité (nationality_name,nationality_image) VALUES (?,?)");
         $stmt->bind_param("ss",$nomNat,$logoNat);
@@ -45,21 +45,20 @@ include 'connexion.php';
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
-                ?>
-                    <?php
                     $id=$row["nationality_id"];
-                    ?>
+                ?>
+                    
                     <tr>
                     <td><?php echo $row["nationality_name"] ?></td>
                     <td><img src="<?php echo $row['nationality_image'] ?>" alt="" style="width:100px;height:70px"></td>
                     <td class="option">
-                    <button onclick="stockerDataEdit(<?= $id; ?>)" id="btnModif"><i class="fa-regular fa-pen-to-square fa-2xl" style="color: #046402;"></i></a>
+                    <button onclick="stockerDataEdit(<?= $id; ?>)" id="btnModif"><i class="fa-regular fa-pen-to-square fa-2xl" style="color: #046402;"></i></button>
                     <a href="supprimerNationality.php?id=<?php echo $id; ?>"><i class="fa-solid fa-trash fa-2xl" style="color: #f86868;"></i></a>
                     </td>
                     </tr>
                     <?php 
                         }};
-                        mysqli_close($conn);
+                        
                     ?>
     </tbody>
     </table>

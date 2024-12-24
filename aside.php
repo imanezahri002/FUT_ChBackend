@@ -19,6 +19,6 @@
                 <li><a href="admin.php">Joueurs</a></li>
                 <li><a href="Club.php">Clubs</a></li>
                 <li><a href="nationality.php">Nationalité</a></li>
-                <li><a href="#">Statistiques</a></li>
+                <li><a href="statistiques.php">Statistiques</a></li>
             </ul>
         </nav>
