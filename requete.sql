@@ -26,3 +26,14 @@ club_id INT NOT NULL,
 FOREIGN KEY club_id REFERENCES Clubs club_id,
 FOREIGN KEY nationality_id REFERENCES Nationalité nationality_id
 )
+CREATE TRIGGER deleteClub 
+BEFORE DELETE ON clubs FOR EACH ROW
+BEGIN DELETE FROM joueurs 
+WHERE club_id = OLD.club_id; 
+END;
+
+CREATE TRIGGER deleteNationality 
+BEFORE DELETE ON nationalité FOR EACH ROW
+BEGIN DELETE FROM joueurs 
+WHERE nationality_id = OLD.nationality_id; 
+END ;

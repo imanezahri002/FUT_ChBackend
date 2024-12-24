@@ -1,3 +1,0 @@
-CREATE TRIGGER deleteClub BEFORE DELETE ON clubs FOR EACH ROW BEGIN DELETE FROM joueurs WHERE club_id = OLD.club_id; END;
-
-CREATE TRIGGER deleteNationality BEFORE DELETE ON nationalité FOR EACH ROW BEGIN DELETE FROM joueurs WHERE nationality_id = OLD.nationality_id; END ;;
