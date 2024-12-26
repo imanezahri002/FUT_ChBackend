@@ -9,9 +9,10 @@ include 'aside.php';
                 <div class="card" id="c1">
                     <h3>Clubs</h3>
                     <p><?php 
-                    $sql="SELECT COUNT(*) AS  FROM clubs";
+                    $sql="SELECT COUNT(*) as nbr_c FROM clubs";
                     $result=mysqli_query($conn,$sql);
-                    print_r($result);
+                    $row=mysqli_fetch_assoc($result);
+                    echo($row['nbr_c']);
                     ?></p>
                 </div>
                 <div class="card" id="c2">
@@ -20,14 +21,16 @@ include 'aside.php';
                     $sql="SELECT COUNT(*) as nbr_n FROM nationalité";
                     $result=mysqli_query($conn,$sql);
                     $row = mysqli_fetch_assoc($result);
-                    print_r($row['nbr_n']);
+                    echo($row['nbr_n']);
                     ?></p>
                 </div>
                 <div class="card" id="c3">
                     <h3>Joueurs</h3>
                     <p><?php 
-                    $sql="SELECT COUNT(*) FROM joueurs";
+                    $sql="SELECT COUNT(*) as nbr_j FROM joueurs";
                     $result=mysqli_query($conn,$sql);
+                    $row=mysqli_fetch_assoc($result);
+                    echo($row['nbr_j']);
                     ?></p>
                 </div>
             </div>

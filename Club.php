@@ -19,7 +19,6 @@
         $nomClub=$_POST["nomC"];
         $profileClub=$_POST["logoClub"];
     if(isset($_POST["ajouter"])){
-
         $stmt = $conn->prepare("INSERT INTO clubs (club_name,club_image) VALUES (?,?)");
         $stmt->bind_param("ss",$nomClub,$profileClub);
     }else {
@@ -29,7 +28,7 @@
     }
     $stmt->execute();
     $stmt->close();
-}
+    }
     ?>
     <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark">
